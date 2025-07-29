@@ -237,6 +237,7 @@ pub async fn adjust_fee_wrapper(
     // The sequence number where the keeper last updated the on-chain fee. None if we haven't observed it yet.
     let mut sequence_number_of_last_fee_update: Option<u64> = None;
     loop {
+        let legacy_tx = true;
         if let Err(e) = adjust_fee_if_necessary(
             contract.clone(),
             chain_state.id.clone(),
