@@ -85,7 +85,7 @@ pub async fn run_api(
 
 pub async fn run(opts: &RunOptions) -> Result<()> {
     // Load environment variables from a .env file if present
-    let _ = dotenv::dotenv()?;
+//     let _ = dotenv::dotenv()?;
     let config = Config::load(&opts.config.config)?;
     let secret = config.provider.secret.load()?.ok_or(anyhow!(
         "Please specify a provider secret in the config file."
@@ -257,7 +257,7 @@ async fn setup_chain_state(
         )
     })?;
 
-    let last_prior_commitment = provider_commitments.last();
+//     let last_prior_commitment = provider_commitments.last();
 //     if last_prior_commitment.is_some()
 //         && last_prior_commitment
 //             .unwrap()
