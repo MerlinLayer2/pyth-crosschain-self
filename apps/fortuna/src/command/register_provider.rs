@@ -86,7 +86,7 @@ pub async fn register_provider_from_config(
     let mut gas_estimate = call.estimate_gas().await?;
     let gas_multiplier = U256::from(2); //TODO: smarter gas estimation
     gas_estimate *= gas_multiplier;
-    let call_with_gas = call.gas(gas_estimate);
+    let call_with_gas = call.legacy().gas(gas_estimate);
     if let Some(r) = call_with_gas.send().await?.await? {
         tracing::info!("Registered provider: {:?}", r);
     }

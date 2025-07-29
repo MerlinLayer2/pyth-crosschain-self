@@ -1,7 +1,7 @@
 chains:
-  lightlink_pegasus:
-    geth_rpc_addr: https://replicator.pegasus.lightlink.io/rpc/v1
-    contract_addr: 0x8250f4aF4B972684F7b336503E2D6dFeDeB1487a
+  merlin:
+    geth_rpc_addr: https://merlin-testnet-erigon.merlinchain.io/
+    contract_addr: 0x81c6145671CAcD9D951b07e975b3bE4880bA11cb
 
     # Keeper configuration for the chain
     reveal_delay_blocks: 0
@@ -26,11 +26,13 @@ chains:
       fee_multiplier_pct: 110
       fee_multiplier_cap_pct: 200
 
-    min_keeper_balance: 100000000000000000
+    min_keeper_balance: 10000000000000
+    # 0.00001
 
     # Provider configuration
     # How much to charge in fees
-    fee: 1500000000000000
+    fee: 1000000000000
+    # 0.000001
 
     # Set this temporarily to false if you have changed the fees and want to apply a new baseline fee.
     sync_fee_only_on_register: true
@@ -53,29 +55,31 @@ chains:
       - seed: [219,125,217,197,234,88,208,120,21,181,172,143,239,102,41,233,167,212,237,106,37,255,184,165,238,121,230,155,116,158,173,48]
         chain_length: 10000
         original_commitment_sequence_number: 104
+
 provider:
-  uri: http://localhost:8080/
+  uri: https://merlin-testnet-erigon.merlinchain.io/
   chain_length: 100000
   chain_sample_interval: 10
 
   # An ethereum wallet address and private key. Generate with `cast wallet new`
-  address: 0xADDRESS
+  address: 0xA95A0A3B3392E80131826346A11a5aB029EFc313
   private_key:
     # For local development, you can hardcode the private key here
-    value: 0xabcd
+    value: 0xd8df308460xxx
+    # 0xA95A0A3B3392E80131826346A11a5aB029EFc313的私钥
     # For production, you can store the private key in a file.
     # file: provider-key.txt
   # A 32 byte random value in hexadecimal
   # Generate with `openssl rand -hex 32`
   secret:
     # For local development, you can hardcode the value here
-    value: abcd
+    value: abcdef
     # For production, you can store the private key in a file.
     # file: secret.txt
 
   # The address of the fee manager for the provider. Only used for syncing the fee manager address to the contract.
   # Fee withdrawals are handled by the fee manager private key defined in the keeper config.
-  fee_manager: 0xfee
+  fee_manager: 0x26fC53fC53E49F51783a7B264d520604640C68b6
 keeper:
   # An ethereum wallet address and private key for running the keeper service.
   # This does not have to be the same key as the provider's key above.
@@ -83,20 +87,21 @@ keeper:
   # The keeper private key can be omitted to run the webservice without the keeper.
   private_key:
     # For local development, you can hardcode the private key here
-    value: 0xabcd
+    value: 0x6bee...
+    # 0x61911537Be9B4b1B1eCBD5019d8Aaa4F091AEd99 单独的私钥，需要监控余额
     # For production, you can store the private key in a file.
     # file: keeper-key.txt
 
   # Fee manager private key for fee manager operations (if not provided, fee withdrawals won't happen)
   fee_manager_private_key:
-    value: 0xabcd
+    value: 0xbb08...
+    # fee_manager 0x26fC5xxx的私钥
     # file: fee-manager-key.txt
 
   # List of other known keeper wallet addresses for balance comparison and fair fee withdrawals.
   # Do not include this keeper's address.
   other_keeper_addresses:
-    - 0x1234
-    - 0x5678
+  # - 0x5678
 
   # Multi-replica configuration
   # Optional: Multi-replica configuration for high availability and load distribution
@@ -104,7 +109,7 @@ keeper:
   # See the README for more details.
   replica_config:
     replica_id: 0              # Unique identifier for this replica (0, 1, 2, ...)
-    total_replicas: 2          # Total number of replica instances running
+    total_replicas: 1          # Total number of replica instances running
     backup_delay_seconds: 30   # Seconds to wait before processing other replicas' requests
 
   # IMPORTANT: Each replica must use a different private_key to avoid nonce conflicts!

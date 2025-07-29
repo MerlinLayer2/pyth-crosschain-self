@@ -147,6 +147,7 @@ pub async fn submit_tx_with_backoff<T: Middleware + NonceManaged + 'static>(
         impl Fn(u64, backoff::Error<SubmitTxError<T>>) -> backoff::Error<SubmitTxError<T>>,
     >,
 ) -> Result<SubmitTxResult, SubmitTxError<T>> {
+    let call = call.legacy();
     let start_time = std::time::Instant::now();
 
     tracing::info!("Started processing event");
